@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPref: SharedPref
-
+    lateinit var weatherViewModel: WeatherViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,18 +33,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (v.id == R.id.btnCheck) {
 
             if (Utils().isOnline(this)) {
-                var weatherViewModel: WeatherViewModel =
-                    ViewModelProvider(this).get(WeatherViewModel::class.java)
+                weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
                 weatherViewModel.getLiveData(
                     binding.etCity.text.toString(),
                     binding.etCountry.text.toString()
-                ).observe(this) {
-                    binding.txtTemperature.text = "Temperature : " + it.temperature
-                    binding.txtHumidity.text = "Humidity : " + it.humidity
-                    binding.txtCondition.text = "Conditition : " + it.condition
-                    binding.txtDetail.text = "Detail : " + it.description
-                    saveLocalData(it)
-                }
+                )
+                    .observe(this) {
+                        binding.txtTemperature.text = "Temperature : " + it.temperature
+                        binding.txtHumidity.text = "Humidity : " + it.humidity
+                        binding.txtCondition.text = "Conditition : " + it.condition
+                        binding.txtDetail.text = "Detail : " + it.description
+                        saveLocalData(it)
+                    }
 
             } else {
                 Toast.makeText(this, "Check your connection", Toast.LENGTH_LONG).show()
