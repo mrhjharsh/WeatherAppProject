@@ -1,0 +1,4 @@
+1. Use android studio for opening this project with latest gradle build setup
+2. All the classes are present in different folder for better understanding
+3. MVVM architecture + Volley Library is used
+4. Shared pref for data storing is used
